@@ -4,14 +4,15 @@ import ContactForm from './ContactForm.jsx';
 import ContactList from './ContactList.jsx';
 import Filter from './Filter.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from '../redux/actions.js';
-import { setFilter } from '../redux/actions.js';
-import { deleteContact } from '../redux/actions.js';
-
-
+import {
+  addContact,
+  setFilter,
+  deleteContact,
+  fetchContacts,
+} from '../redux/actions.js';
 
 export function App() {
-  //Za pomocą hooka 'useDispatch' pobieram funkcję 'dispatch', która pozwala na wysyłanie akcji do store'a 
+  //Za pomocą hooka 'useDispatch' pobieram funkcję 'dispatch', która pozwala na wysyłanie akcji do store'a
   const dispatch = useDispatch();
 
   //pomocą hooka 'useSelector' pobieram fragmenty stanu z store'a, czyli listę kontaktów (contacts) i filtr (filter), który będzie używany do filtrowania kontaktów
@@ -21,30 +22,18 @@ export function App() {
   //na podstawie zależności [dispatch] apka sprawdza, czy są zapisane kontakty w localStorage. Jeśli są zapisane, są one parsowane z localStorage i wysyłane do store'a za pomocą akcji 'addContact'
 
   useEffect(() => {
-    const storedContacts = localStorage.getItem('contacts');
-    if (storedContacts) {
-      dispatch(addContact(JSON.parse(storedContacts)));
-    }
+    dispatch(fetchContacts());
   }, [dispatch]);
-
-
-  //na podstawie zależności [contacts] apka zapisuje aktualną listę kontaktów do localStorage po każdej zmianie kontaktów
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
 
   //ta funkcja jest wywoływana w momencie przesłania formularza z danymi kontaktu. Wysyła akcję 'addContact' do store'a z nowym kontaktem
   const handleSubmit = contact => {
     dispatch(addContact(contact));
   };
 
-
   //ta funkcja jest przekazywana do komponentu ContactList jako callback przy usuwaniu kontaktu.Po kliknięciu przycisku usuwania, funkcja wysyła akcję 'deleteContact' z identyfikatorem usuwanego kontaktu
   const handleDeleteContact = id => {
     dispatch(deleteContact(id));
   };
-
 
   // ta funkcja jest wywoływana przy zmianie wartości pola filtru. W tej funkcji wartość pola jest wysyłana za pomocą akcji 'setFilter' do store'a
   const handleFilterChange = event => {
