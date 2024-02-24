@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const setFilter = createAction('filter/set');
 
-const BASE_URL = 'https://65d9c7b0bcc50200fcdc192b.mockapi.io/contacts';
+const BASE_URL = 'https://609a077031037e00174d425e.mockapi.io';
 
 const CONTACTS_ENDPOINT = '/contacts';
 
