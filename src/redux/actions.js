@@ -3,14 +3,12 @@ import axios from 'axios';
 
 export const setFilter = createAction('filter/set');
 
-const BASE_URL = 'https://609a077031037e00174d425e.mockapi.io';
-
-const CONTACTS_ENDPOINT = '/contacts';
+const BASE_URL = 'https://65d9c7b0bcc50200fcdc192b.mockapi.io/contacts/contacts';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetch',
   async () => {
-    const response = await axios.get(BASE_URL + CONTACTS_ENDPOINT);
+    const response = await axios.get(BASE_URL);
     return response.data;
   }
 );
@@ -18,7 +16,7 @@ export const fetchContacts = createAsyncThunk(
 export const addContact = createAsyncThunk(
   'contacts/save',
   async contact => {
-    const response = await axios.post(BASE_URL + CONTACTS_ENDPOINT, contact);
+    const response = await axios.post(BASE_URL, contact);
     return response.data;
   }
 );
@@ -26,7 +24,7 @@ export const addContact = createAsyncThunk(
 export const deleteContact = createAsyncThunk(
   'contacts/remove',
   async id => {
-    await axios.delete(BASE_URL + CONTACTS_ENDPOINT + `/${id}`);
+    await axios.delete(BASE_URL + `/${id}`);
     return id;
   }
 );
